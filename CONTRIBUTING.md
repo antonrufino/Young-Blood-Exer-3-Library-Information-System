@@ -10,7 +10,7 @@ When implementing a feature, let's try keeping unfinished features in their own 
 
 As for pull requests, for now anyone can merge the requests (other than the person who made the request).
 
-Also, test before committing.    
+Also, test before pushing.    
 
 ## Bugs
 When a bug is found in code, open an Issue so that it can be discussed. Once a the Issue is resolved, close it.
