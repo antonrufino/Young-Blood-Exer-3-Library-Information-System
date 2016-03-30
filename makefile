@@ -1,3 +1,3 @@
 build:
 	javac -d bin -sourcepath src src/*.java
-	jar cfev bin/Exer3.jar Main -C bin .
+	jar cfev Exer3.jar Main -C bin .
