@@ -6,6 +6,8 @@
 import java.util.Scanner;
 
 public class Library {
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void main (String[] args) {
         mainMenu();
     }
@@ -20,7 +22,6 @@ public class Library {
 
     private static void mainMenu() {
         int choice = -1;
-        Scanner scanner = new Scanner(System.in);
 
         while (choice != 0) {
             printMainMenu();
@@ -35,11 +36,11 @@ public class Library {
             switch (choice) {
                 case 1:
                     // TODO: Borrow book ui here.
-                    System.out.println("Borrow coming soon.");
+                    borrowMenu();
                     break;
                 case 2:
                     // TODO: Retun book ui here.
-                    System.out.println("Return coming soon.");
+                    returnMenu();
                     break;
                 case 0:
                     System.out.println("Good bye.");
@@ -48,5 +49,27 @@ public class Library {
                     System.out.println("Not a valid choice");
             }
         }
+    }
+
+    private static void borrowMenu() {
+        String title;
+
+        System.out.print("Book title: ");
+        title = scanner.nextLine();
+
+        // TODO: Borrow implementation goes here.
+
+        System.out.println("You borrowed " + title + ".");
+    }
+
+    private static void returnMenu() {
+        String title;
+
+        System.out.print("Book title: ");
+        title = scanner.nextLine();
+
+        // TODO: Borrow implementation goes here.
+
+        System.out.println("You returned " + title + ". Thank you.");
     }
 }
