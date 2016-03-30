@@ -1,11 +1,11 @@
 /**
- * Class name: Library
+ * Class name: Main
  * Description: This will hold the main file for the program.
  */
 
 import java.util.Scanner;
 
-public class Library {
+public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main (String[] args) {
