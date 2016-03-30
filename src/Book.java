@@ -16,8 +16,8 @@ public class Book {
         this.yearPublished = yearPublished;
     }
 
-    public void getId() { return this.id; }
-    public void getTitle() { return this.title; }
-    public void getAuthor() { return this.author; }
-    public void getYearPublished() { return this.yearPublished; }
+    public int getId() { return this.id; }
+    public String getTitle() { return this.title; }
+    public String getAuthor() { return this.author; }
+    public int getYearPublished() { return this.yearPublished; }
 }
