@@ -55,6 +55,7 @@ public class Library {
         String title;
 
         System.out.print("Book title: ");
+        scanner.nextLine();
         title = scanner.nextLine();
 
         // TODO: Borrow implementation goes here.
@@ -66,6 +67,7 @@ public class Library {
         String title;
 
         System.out.print("Book title: ");
+        scanner.nextLine();
         title = scanner.nextLine();
 
         // TODO: Borrow implementation goes here.
