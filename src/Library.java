@@ -13,6 +13,8 @@ public class Library {
     private static void printMainMenu() {
         System.out.println("[1] Borrow");
         System.out.println("[2] Return");
+        System.out.println("[3] View books in library");
+        System.out.println("[4] View borrowed books");
         System.out.println("[0] Exit");
 
         System.out.print("Choice: ");
@@ -40,6 +42,14 @@ public class Library {
                 case 2:
                     // TODO: Retun book ui here.
                     System.out.println("Return coming soon.");
+                    break;
+                case 3:
+                    // TODO: View books ui here.
+                    System.out.println("View books coming soon.");
+                    break;
+                case 4:
+                    // TODO: View borrowed books ui here.
+                    System.out.println("View borrowed books coming soon.");
                     break;
                 case 0:
                     System.out.println("Good bye.");
