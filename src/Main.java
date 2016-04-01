@@ -2,14 +2,17 @@
  * Class name: Main
  * Description: This will hold the main file for the program.
  */
-
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
+    private static Library lib;
 
     public static void main (String[] args) {
+        loadLibrary();
         mainMenu();
+        lib.saveToFile();
     }
 
     private static void printMainMenu() {
@@ -46,7 +49,7 @@ public class Main {
                     break;
                 case 3:
                     // TODO: View books ui here.
-                    System.out.println("View books coming soon.");
+                    lib.viewBooks();
                     break;
                 case 4:
                     // TODO: View borrowed books ui here.
@@ -84,4 +87,22 @@ public class Main {
 
         System.out.println("You returned " + title + ". Thank you.");
     }
+
+    private static void loadLibrary() {
+        File f = new File("bin/books.ser");
+
+        try {
+            if(f.exists()) {
+                // Retrieves books from existing file
+                lib = new Library(new FileInputStream("bin/books.ser"), true);
+            } else {
+                // Generates library from a csv file
+                lib = new Library(new FileReader("bin/books.csv"));
+            }
+        } catch(Exception e) {
+            System.out.println("OH SHIT");
+            System.exit(1);
+        }
+    }
+
 }
