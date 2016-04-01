@@ -29,8 +29,10 @@ public class Library implements Serializable{
         int yearPublished;
 
         try {
+            System.out.println("1");
             BufferedReader br = new BufferedReader(csv);
             while((token = br.readLine().split(",")) != null) {
+                System.out.println("2");
                 size = rand.nextInt(6) + 15;
                 books = new ArrayList<Book>(size);
 
@@ -40,6 +42,7 @@ public class Library implements Serializable{
                 type = token[3];
 
                 for(int i = 0; i < size; i++) {
+                    System.out.println("3");
                     /*
                         Creates instances of book with different id and add it to
                         the list
@@ -50,7 +53,7 @@ public class Library implements Serializable{
                 }
                 bookList.put(title, books); // Adds the list to the hashmap
             }
-        } catch(Exception e) {}
+        } catch(Exception e) { System.out.println("4"); }
     }
 
 
