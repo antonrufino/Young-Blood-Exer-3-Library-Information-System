@@ -10,27 +10,8 @@ public class Main {
     private static Library lib;
 
     public static void main (String[] args) {
-        // mainMenu();
-        File f = new File("books.ser");
-
-        try {
-            if(f.exists()) {
-                // Retrieves books from existing file
-                System.out.println("Here!");
-                lib = new Library(new FileInputStream("books.ser"), true);
-            } else {
-                // Generates library from a csv file
-                System.out.println("Hi!");
-                FileReader fr = new FileReader("books.csv");
-                //lib = new Library(new FileReader("books.csv"));
-                lib = new Library(fr);
-            }
-        } catch(Exception e) {
-          System.out.println("OH SHIT");
-          System.exit(1);
-        }
-
-        lib.viewBooks();
+        loadLibrary();
+        mainMenu();
         lib.saveToFile();
     }
 
@@ -68,7 +49,7 @@ public class Main {
                     break;
                 case 3:
                     // TODO: View books ui here.
-                    System.out.println("View books coming soon.");
+                    lib.viewBooks();
                     break;
                 case 4:
                     // TODO: View borrowed books ui here.
@@ -105,6 +86,23 @@ public class Main {
         // TODO: Borrow implementation goes here.
 
         System.out.println("You returned " + title + ". Thank you.");
+    }
+
+    private static void loadLibrary() {
+        File f = new File("bin/books.ser");
+
+        try {
+            if(f.exists()) {
+                // Retrieves books from existing file
+                lib = new Library(new FileInputStream("bin/books.ser"), true);
+            } else {
+                // Generates library from a csv file
+                lib = new Library(new FileReader("bin/books.csv"));
+            }
+        } catch(Exception e) {
+            System.out.println("OH SHIT");
+            System.exit(1);
+        }
     }
 
 }
