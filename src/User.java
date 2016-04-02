@@ -34,13 +34,12 @@ public class User implements Serializable {
 	    	lib.bookList.get(title).remove(0);
 			return true;
 		} else {
-			System.out.println("Book not Found");
 			return false;
 		}
 
     }
 
-    public void returnBook(Library lib, String id) {
+    public boolean returnBook(Library lib, String id) {
 		int indexOfBook;
 		String title = "";
 		boolean foundBook = false;
@@ -57,9 +56,9 @@ public class User implements Serializable {
 		if(foundBook) {
 			lib.bookList.get(title).add(borrowedBooks.get(indexOfBook));
 			borrowedBooks.remove(indexOfBook);
-		    System.out.println("You returned " + id + ". Thank you.");
+			return true;
 		} else {
-			System.out.println("Book not Found");
+			return false;
 		}
 
     }

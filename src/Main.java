@@ -121,6 +121,8 @@ public class Main {
 
         if (user.borrowBook(lib, title))
             System.out.println("You borrowed " + title + ".");
+        else
+            System.out.println("Book not found.");
     }
 
     private static void returnMenu() {
@@ -131,9 +133,11 @@ public class Main {
         scan.nextLine();
         id = scan.nextLine();
 
-        user.returnBook(lib, id);
+        if (user.returnBook(lib, id))
+            System.out.println("You returned " + id + ". Thank you.");
+        else
+            System.out.println("Book not found.");
 
-        System.out.println("You returned " + id + ". Thank you.");
     }
 
     private static void loadLibrary() {
