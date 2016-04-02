@@ -174,11 +174,8 @@ public class Library implements Serializable{
 			}
 		}
 
-        if(!userExist) {
-            System.out.println("Incorrect username and/or password");
-        }
-
-        System.out.println("Successful");
+        if(!userExist) System.out.println("Incorrect username and/or password");
+        else System.out.println("Successful");
         return user;
 
 	}

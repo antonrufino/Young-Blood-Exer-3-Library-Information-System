@@ -37,23 +37,23 @@ public class Main {
     private static void logInMenu() {
         String username;
         String password;
+        int choice = -1;
 
-		System.out.print("[1] Login\n[2] Register\n[3] Exit\nEnter choice: ");
-		int choice = scan.nextInt();													//gets the size of the array list of users
+        do {
+    		System.out.print("[1] Login\n[2] Register\n[0] Exit\nEnter choice: ");
+    		choice = scan.nextInt();
 
-		if(choice == 1) {
-            do {
-                System.out.print("Username: ");		//gets the username
+            if(choice == 1) {
+                //allows user to login
+                System.out.print("Username: ");	//gets the username
     			username = scan.next();
 
-    			System.out.print("Password: ");		//gets the password
+    			System.out.print("Password: "); //gets the password
     			password = scan.next();
 
                 user = lib.login(username, password);
-            } while(user == null);								//allows user to login
-		} else if(choice == 2) {
-
-            do {
+    		} else if(choice == 2) {
+                //allows user to register
                 System.out.print("Username: ");
                 username = scan.next();
 
@@ -61,8 +61,15 @@ public class Main {
                 password = scan.next();
 
                 user = lib.register(username, password);
-            } while(user == null);
-        }							//allows user to register
+            } else if (choice != 0) {
+                System.out.println("Not a valid choice.");
+            }
+        } while (user == null && choice != 0);
+
+        if (choice == 0) {
+            System.out.println("Good bye.");
+            System.exit(0);
+        }
     }
 
     private static void mainMenu() {
