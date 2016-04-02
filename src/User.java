@@ -64,9 +64,14 @@ public class User implements Serializable {
     }
 
     public void userBooks() {
+		if (borrowedBooks.isEmpty()) {
+			System.out.println("You have not borrowed any books.");
+			return;
+		}
+
     	for(int i = 0; i < borrowedBooks.size(); i++) {
 			System.out.println(borrowedBooks.get(i).getTitle());
-			System.out.println(borrowedBooks.get(i).getId());
+			System.out.println("ID: " + borrowedBooks.get(i).getId());
 		}
     }
 
