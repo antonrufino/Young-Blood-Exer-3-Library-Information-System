@@ -25,13 +25,17 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-    public void borrowBook(Library lib, String title) {
+	// Returns true if user was able to borrow book with the matching title.
+	// Returns false otherwise.
+    public boolean borrowBook(Library lib, String title) {
 
 		if(lib.bookList.containsKey(title)) {
 			borrowedBooks.add(lib.bookList.get(title).get(0));
 	    	lib.bookList.get(title).remove(0);
+			return true;
 		} else {
 			System.out.println("Book not Found");
+			return false;
 		}
 
     }

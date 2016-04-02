@@ -118,9 +118,9 @@ public class Main {
         scan.nextLine();
         title = scan.nextLine();
         System.out.println(user);
-        user.borrowBook(lib, title);
 
-        System.out.println("You borrowed " + title + ".");
+        if (user.borrowBook(lib, title))
+            System.out.println("You borrowed " + title + ".");
     }
 
     private static void returnMenu() {
