@@ -18,6 +18,7 @@ public class Library implements Serializable{
 
     private static int totalNumOfBooks;
 
+    // Constructor that will process a csv file containing book data.
     public Library(FileReader csv) {
         /* Retrieves books from a csv file and randomly generate a booklist */
         Book book;
@@ -62,7 +63,7 @@ public class Library implements Serializable{
         System.out.println(users);
     }
 
-
+    // Constructor that will process a .ser file.
     public Library(FileInputStream ser) {
         /* Retrieves books from a serialized file */
         ObjectInputStream ois;
@@ -211,6 +212,7 @@ public class Library implements Serializable{
 
 	}
 
+    // Saves data to a .ser file
     public void saveToFile() {
         /* Serialize the booklist(hashmap) */
         FileOutputStream fos;
@@ -227,6 +229,7 @@ public class Library implements Serializable{
         }
     }
 
+    // Loads user data from a .ser file.
     private void loadUsers() {
         if (new File("bin/users.ser").exists()) {								//checks if file exists
 			//reading/getting the array list of users from file (if it exists)
@@ -245,6 +248,7 @@ public class Library implements Serializable{
 		}
     }
 
+    // Save user data to .ser file.
     public static void saveUsers() {
         try {
 			//writing/saving information of the users in the arraylist

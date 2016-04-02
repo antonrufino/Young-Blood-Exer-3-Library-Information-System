@@ -20,6 +20,7 @@ public class Book implements Serializable {
         this.type = type;
     }
 
+    // Getters
     public String getId() {
         return this.id;
     }

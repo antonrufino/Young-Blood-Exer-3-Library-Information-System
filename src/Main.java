@@ -1,3 +1,8 @@
+/**
+ * Class name: Main
+ * Class description: Contains the main method and the menus the user will see.
+ */
+
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.io.File;
@@ -87,19 +92,15 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    // TODO: Borrow book ui here.
                     borrowMenu();
                     break;
                 case 2:
-                    // TODO: Retun book ui here.
                     returnMenu();
                     break;
                 case 3:
-                    // TODO: View books ui here.
                     lib.viewBooks();
                     break;
                 case 4:
-                    // TODO: View borrowed books ui here.
                     user.userBooks();
                     break;
                 case 0:
@@ -140,6 +141,7 @@ public class Main {
 
     }
 
+    // Gets the initial data for the library. 
     private static void loadLibrary() {
         File f = new File("bin/books.ser");
 

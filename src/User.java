@@ -39,6 +39,8 @@ public class User implements Serializable {
 
     }
 
+	// Returns true if user was able to return book with the matching id.
+	// Returns false otherwise.
     public boolean returnBook(Library lib, String id) {
 		int indexOfBook;
 		String title = "";
@@ -63,6 +65,7 @@ public class User implements Serializable {
 
     }
 
+	// Prints the books the user has borrowed.
     public void userBooks() {
 		if (borrowedBooks.isEmpty()) {
 			System.out.println("You have not borrowed any books.");
@@ -75,6 +78,7 @@ public class User implements Serializable {
 		}
     }
 
+	// Setter.
     public void setInfo(String username, String password) {			//function for setting the username and password of the account of user
     	this.username = username;
    	 	this.password = password;
