@@ -136,7 +136,7 @@ public class Main {
             if(f.exists()) {
                 // Retrieves books from existing file
                 System.out.println("True");
-                lib = new Library(new FileInputStream("bin/books.ser"), true);
+                lib = new Library(new FileInputStream("bin/books.ser"));
             } else {
                 // Generates library from a csv file
                 System.out.println("False");

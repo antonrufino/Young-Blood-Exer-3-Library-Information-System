@@ -60,7 +60,7 @@ public class Library implements Serializable{
     }
 
 
-    public Library(FileInputStream ser, boolean fileFound) {
+    public Library(FileInputStream ser) {
         /* Retrieves books from a serialized file */
         ObjectInputStream ois;
 
