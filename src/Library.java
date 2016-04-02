@@ -34,7 +34,7 @@ public class Library implements Serializable{
         try {
             BufferedReader br = new BufferedReader(csv);
             while((token = br.readLine().split(",")) != null) {
-                size = 2/*rand.nextInt(6) + 15*/;
+                size = rand.nextInt(6) + 15;
                 books = new ArrayList<Book>(size);
 
                 title = token[0];
@@ -53,14 +53,14 @@ public class Library implements Serializable{
                 }
                 bookList.put(title, books); // Adds the list to the hashmap
             }
-        } catch(Exception e) {}
+        } catch(Exception e) {e.printStackTrace();}
 
         loadUsers();
         System.out.println(users);
     }
 
 
-    public Library(FileInputStream ser, boolean fileFound) {
+    public Library(FileInputStream ser) {
         /* Retrieves books from a serialized file */
         ObjectInputStream ois;
 
@@ -171,11 +171,8 @@ public class Library implements Serializable{
 			}
 		}
 
-        if(!userExist) {
-            System.out.println("Incorrect username and/or password");
-        }
-
-        System.out.println("Successful");
+        if(!userExist) System.out.println("Incorrect username and/or password");
+        else System.out.println("Successful");
         return user;
 
 	}

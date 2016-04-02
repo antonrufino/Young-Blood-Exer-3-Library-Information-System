@@ -9,43 +9,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileReader;
 
-@SuppressWarnings("unchecked")
-
 public class Main {
     private static Scanner scan = new Scanner(System.in);
     private static Library lib;
     private static User user;
 
 	public static void main(String[] args) {
-        String username;
-        String password;
-
         loadLibrary();
-
-		System.out.print("[1] Login\n[2] Register\n[3] Exit\nEnter choice: ");
-		int choice = scan.nextInt();
-		if(choice == 1) {
-            do {
-                System.out.print("Username: ");		//gets the username
-    			username = scan.next();
-
-    			System.out.print("Password: ");		//gets the password
-    			password = scan.next();
-
-                user = lib.login(username, password);
-            } while(user == null);								//allows user to login
-		} else if(choice == 2) {
-
-            do {
-                System.out.print("Username: ");
-                username = scan.next();
-
-                System.out.print("Password: ");
-                password = scan.next();
-
-                user = lib.register(username, password);
-            } while(user == null);
-        }							//allows user to register
+        logInMenu();
 
         System.out.println(user);
         mainMenu();
@@ -61,6 +32,54 @@ public class Main {
         System.out.println("[0] Exit");
 
         System.out.print("Choice: ");
+    }
+
+    private static void logInMenu() {
+        String username;
+        String password;
+        int choice = -1;
+
+<<<<<<< HEAD
+        loadLibrary();
+
+		System.out.print("[1] Login\n[2] Register\n[3] Exit\nEnter choice: ");
+		int choice = scan.nextInt();
+		if(choice == 1) {
+            do {
+                System.out.print("Username: ");		//gets the username
+=======
+        do {
+    		System.out.print("[1] Login\n[2] Register\n[0] Exit\nEnter choice: ");
+    		choice = scan.nextInt();
+
+            if(choice == 1) {
+                //allows user to login
+                System.out.print("Username: ");	//gets the username
+>>>>>>> 5cf3c0b72cac77e6e6f9d118b301e9960dadc182
+    			username = scan.next();
+
+    			System.out.print("Password: "); //gets the password
+    			password = scan.next();
+
+                user = lib.login(username, password);
+    		} else if(choice == 2) {
+                //allows user to register
+                System.out.print("Username: ");
+                username = scan.next();
+
+                System.out.print("Password: ");
+                password = scan.next();
+
+                user = lib.register(username, password);
+            } else if (choice != 0) {
+                System.out.println("Not a valid choice.");
+            }
+        } while (user == null && choice != 0);
+
+        if (choice == 0) {
+            System.out.println("Good bye.");
+            System.exit(0);
+        }
     }
 
     private static void mainMenu() {
@@ -132,7 +151,8 @@ public class Main {
         try {
             if(f.exists()) {
                 // Retrieves books from existing file
-                lib = new Library(new FileInputStream("bin/books.ser"), true);
+                lib = new Library(new FileInputStream("bin/books.ser"));
+
             } else {
                 // Generates library from a csv file
                 lib = new Library(new FileReader("bin/books.csv"));
