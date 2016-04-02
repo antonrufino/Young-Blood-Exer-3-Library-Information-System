@@ -143,6 +143,7 @@ public class Main {
                 lib = new Library(new FileReader("bin/books.csv"));
             }
         } catch(Exception e) {
+            e.printStackTrace();
             System.exit(1);
         }
     }

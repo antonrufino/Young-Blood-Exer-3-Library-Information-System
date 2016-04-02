@@ -53,7 +53,7 @@ public class Library implements Serializable{
                 }
                 bookList.put(title, books); // Adds the list to the hashmap
             }
-        } catch(Exception e) {}
+        } catch(Exception e) {e.printStackTrace();}
 
         loadUsers();
         System.out.println(users);
@@ -73,8 +73,10 @@ public class Library implements Serializable{
         }
 
         loadUsers();
-        System.out.println(users.get(0).getUsername());
-        System.out.println(users.get(0).getPassword());
+        if (!users.isEmpty()) {
+            System.out.println(users.get(0).getUsername());
+            System.out.println(users.get(0).getPassword());
+        }
     }
 
     public void findBook(String id) {
