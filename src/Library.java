@@ -12,7 +12,10 @@ public class Library implements Serializable{
         with the same title as the value
     */
     private Random rand = new Random();
-    private static HashMap<String, ArrayList<Book>> bookList = new HashMap<String, ArrayList<Book>>();
+    public static HashMap<String, ArrayList<Book>> bookList = new HashMap<String, ArrayList<Book>>();
+    private static ArrayList <User> users = new ArrayList<User>();
+    private User user;
+
     private static int totalNumOfBooks;
 
     public Library(FileReader csv) {
@@ -29,10 +32,11 @@ public class Library implements Serializable{
         int yearPublished;
 
         try {
-            System.out.println("1");
             BufferedReader br = new BufferedReader(csv);
-            while((token = br.readLine().split(",")) != null) {
-                System.out.println("2");
+            String input;
+
+            while((input = br.readLine()) != null) {
+                token = input.split(",");
                 size = rand.nextInt(6) + 15;
                 books = new ArrayList<Book>(size);
 
@@ -42,7 +46,6 @@ public class Library implements Serializable{
                 type = token[3];
 
                 for(int i = 0; i < size; i++) {
-                    System.out.println("3");
                     /*
                         Creates instances of book with different id and add it to
                         the list
@@ -53,11 +56,14 @@ public class Library implements Serializable{
                 }
                 bookList.put(title, books); // Adds the list to the hashmap
             }
-        } catch(Exception e) { System.out.println("4"); }
+        } catch(Exception e) {e.printStackTrace();}
+
+        loadUsers();
+        System.out.println(users);
     }
 
 
-    public Library(FileInputStream ser, boolean fileFound) {
+    public Library(FileInputStream ser) {
         /* Retrieves books from a serialized file */
         ObjectInputStream ois;
 
@@ -69,7 +75,7 @@ public class Library implements Serializable{
             e.printStackTrace();
         }
 
-        System.out.println(bookList.get("Wikipedia"));
+        loadUsers();
     }
 
     public void findBook(String id) {
@@ -125,6 +131,11 @@ public class Library implements Serializable{
         Iterator it = bookList.keySet().iterator();
         String title;
 
+        if (bookList.isEmpty()) {
+            System.out.println("No books in library.");
+            return;
+        }
+
         while (it.hasNext()) {
             title = (String)it.next();
             books = bookList.get(title);
@@ -152,19 +163,103 @@ public class Library implements Serializable{
         System.out.println("  -" + book.getYearPublished());
     }
 
-    public void saveToFile() {
-      /* Serialize the booklist(hashmap) */
-      FileOutputStream fos;
-      ObjectOutputStream oos;
+    public User login(String username, String password) {
+        //method that allows user to login
+		System.out.println("\nLogin");
+        boolean userExist = false;;
 
-      try {
-          fos = new FileOutputStream("books.ser");
+		//validate if the username exists and if the password matches the username
+        for (int i = 0; i < users.size(); i++) {
+			if (username.equalsIgnoreCase(users.get(i).getUsername()) &&
+                password.equalsIgnoreCase(users.get(i).getPassword())) {
+                user = users.get(i);
+                userExist = true;
+				break;
+
+			}
+		}
+
+        if(!userExist) System.out.println("Incorrect username and/or password");
+        else System.out.println("Successful");
+        return user;
+
+	}
+
+	public User register(String username, String password) {
+        //method that allows user to register/make an account
+		System.out.println("\nRegister");
+
+        boolean alreadyExist = false;
+
+		//checks if username already exists
+        for (int i = 0; i < users.size(); i++) {
+			if (username.equalsIgnoreCase(users.get(i).getUsername()) == true) {
+                System.out.println("Username already exists");
+                alreadyExist = true;
+                break;
+			}
+		}
+
+		if(!alreadyExist) {
+            user = new User(username, password);	//sets the username and password of the account of user
+    		users.add(user);					//adds the user to the list of all users
+    		System.out.println("Successful");
+            System.out.println(user);
+        }
+
+        return user;
+
+	}
+
+    public void saveToFile() {
+        /* Serialize the booklist(hashmap) */
+        FileOutputStream fos;
+        ObjectOutputStream oos;
+
+        try {
+          fos = new FileOutputStream("bin/books.ser");
           oos = new ObjectOutputStream(fos);
           oos.writeObject(bookList);
           oos.close();
           fos.close();
-      } catch(Exception e) {
-          e.printStackTrace();
-      }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadUsers() {
+        if (new File("bin/users.ser").exists()) {								//checks if file exists
+			//reading/getting the array list of users from file (if it exists)
+			try{
+
+				FileInputStream fileIn = new FileInputStream("bin/users.ser");
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				users = (ArrayList<User>) in.readObject();
+				in.close();
+				fileIn.close();
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				System.out.println("Cannot read.");
+			}
+		}
+    }
+
+    public static void saveUsers() {
+        try {
+			//writing/saving information of the users in the arraylist
+            FileOutputStream fileOut = new FileOutputStream("bin/users.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(users);
+            out.close();
+            fileOut.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

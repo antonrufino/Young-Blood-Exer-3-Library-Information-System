@@ -1,19 +1,28 @@
-/**
- * Class name: Main
- * Description: This will hold the main file for the program.
- */
-import java.util.*;
-import java.io.*;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.FileReader;
 
 public class Main {
-    private static Scanner scanner = new Scanner(System.in);
+    private static Scanner scan = new Scanner(System.in);
     private static Library lib;
+    private static User user;
 
-    public static void main (String[] args) {
+	public static void main(String[] args) {
         loadLibrary();
+        logInMenu();
+
+        System.out.println(user);
         mainMenu();
         lib.saveToFile();
-    }
+        lib.saveUsers();
+	}
 
     private static void printMainMenu() {
         System.out.println("[1] Borrow");
@@ -25,6 +34,44 @@ public class Main {
         System.out.print("Choice: ");
     }
 
+    private static void logInMenu() {
+        String username;
+        String password;
+        int choice = -1;
+
+        do {
+    		System.out.print("[1] Login\n[2] Register\n[0] Exit\nEnter choice: ");
+    		choice = scan.nextInt();
+
+            if(choice == 1) {
+                //allows user to login
+                System.out.print("Username: ");	//gets the username
+    			username = scan.next();
+
+    			System.out.print("Password: "); //gets the password
+    			password = scan.next();
+
+                user = lib.login(username, password);
+    		} else if(choice == 2) {
+                //allows user to register
+                System.out.print("Username: ");
+                username = scan.next();
+
+                System.out.print("Password: ");
+                password = scan.next();
+
+                user = lib.register(username, password);
+            } else if (choice != 0) {
+                System.out.println("Not a valid choice.");
+            }
+        } while (user == null && choice != 0);
+
+        if (choice == 0) {
+            System.out.println("Good bye.");
+            System.exit(0);
+        }
+    }
+
     private static void mainMenu() {
         int choice = -1;
 
@@ -32,7 +79,7 @@ public class Main {
             printMainMenu();
 
             try {
-                choice = scanner.nextInt();
+                choice = scan.nextInt();
             } catch (Exception e) {
                 System.out.println("Input is not a number.");
                 System.exit(1);
@@ -53,7 +100,7 @@ public class Main {
                     break;
                 case 4:
                     // TODO: View borrowed books ui here.
-                    System.out.println("View borrowed books coming soon.");
+                    user.userBooks();
                     break;
                 case 0:
                     System.out.println("Good bye.");
@@ -68,24 +115,29 @@ public class Main {
         String title;
 
         System.out.print("Book title: ");
-        scanner.nextLine();
-        title = scanner.nextLine();
+        scan.nextLine();
+        title = scan.nextLine();
+        System.out.println(user);
 
-        // TODO: Borrow implementation goes here.
-
-        System.out.println("You borrowed " + title + ".");
+        if (user.borrowBook(lib, title))
+            System.out.println("You borrowed " + title + ".");
+        else
+            System.out.println("Book not found.");
     }
 
     private static void returnMenu() {
-        String title;
+        String id;
+        user.userBooks();
 
-        System.out.print("Book title: ");
-        scanner.nextLine();
-        title = scanner.nextLine();
+        System.out.print("Book ID: ");
+        scan.nextLine();
+        id = scan.nextLine();
 
-        // TODO: Borrow implementation goes here.
+        if (user.returnBook(lib, id))
+            System.out.println("You returned " + id + ". Thank you.");
+        else
+            System.out.println("Book not found.");
 
-        System.out.println("You returned " + title + ". Thank you.");
     }
 
     private static void loadLibrary() {
@@ -94,13 +146,14 @@ public class Main {
         try {
             if(f.exists()) {
                 // Retrieves books from existing file
-                lib = new Library(new FileInputStream("bin/books.ser"), true);
+                lib = new Library(new FileInputStream("bin/books.ser"));
+
             } else {
                 // Generates library from a csv file
                 lib = new Library(new FileReader("bin/books.csv"));
             }
         } catch(Exception e) {
-            System.out.println("OH SHIT");
+            e.printStackTrace();
             System.exit(1);
         }
     }
