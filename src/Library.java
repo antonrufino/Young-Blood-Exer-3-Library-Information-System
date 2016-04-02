@@ -148,6 +148,59 @@ public class Library implements Serializable{
         System.out.println("  -" + book.getYearPublished());
     }
 
+    public void login(ArrayList<User> users) {			//method that allows user to login
+		System.out.println("\nLogin");
+
+		checker = 0;
+		while (checker != 2) {
+			System.out.print("Username: ");							//gets the username
+			username = scan.nextLine();
+			System.out.print("Password: ");							//gets the password
+			password = scan.nextLine();
+
+			this.setInfo(username, password);
+
+			//validate if the username exists and if the password matches the username
+			for (int i = 0; i < users.size(); i++) {
+				if (this.getUsername().equalsIgnoreCase(users.get(i).getUsername()) == true &&
+					this.getPassword().equals(users.get(i).getPassword())) {
+					checker = 1;
+					break;
+				}
+			}
+			if (checker == 0) {
+				 System.out.println("Incorrect username and/or password");
+			} else {
+				checker = 2;
+			}
+		}
+	}
+
+	public void register(ArrayList<User> users) {			//method that allows user to register/make an account
+		System.out.println("\nRegister");
+
+		System.out.print("Username: ");
+		username = scan.nextLine();
+
+		//checks if username already exists
+		while (checker != 2) {
+			if (checker == 1) {
+				System.out.println("Username already exists");
+				System.out.print("Username: ");
+				username = scan.nextLine();
+				checker = 0;
+			} else {
+				checker = 2;
+			}
+		}
+		System.out.print("Password: ");
+		password = scan.nextLine();
+
+		this.setInfo(username, password);	//sets the username and password of the account of user
+		users.add(this);					//adds the user to the list of all users
+		System.out.println("Successful");
+	}
+
     public void saveToFile() {
       /* Serialize the booklist(hashmap) */
       FileOutputStream fos;
