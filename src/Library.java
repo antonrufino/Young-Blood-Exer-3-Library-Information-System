@@ -13,6 +13,8 @@ public class Library implements Serializable{
     */
     private Random rand = new Random();
     public static HashMap<String, ArrayList<Book>> bookList = new HashMap<String, ArrayList<Book>>();
+    private static ArrayList <User> users = new ArrayList<User>();
+
     private static int totalNumOfBooks;
 
     public Library(FileReader csv) {
@@ -148,72 +150,94 @@ public class Library implements Serializable{
         System.out.println("  -" + book.getYearPublished());
     }
 
-    public void login(ArrayList<User> users) {			//method that allows user to login
+    public boolean login(User user, String username, String password) {
+        //method that allows user to login
 		System.out.println("\nLogin");
+        user = new User(username, password);
 
-		checker = 0;
-		while (checker != 2) {
-			System.out.print("Username: ");							//gets the username
-			username = scan.nextLine();
-			System.out.print("Password: ");							//gets the password
-			password = scan.nextLine();
-
-			this.setInfo(username, password);
-
-			//validate if the username exists and if the password matches the username
-			for (int i = 0; i < users.size(); i++) {
-				if (this.getUsername().equalsIgnoreCase(users.get(i).getUsername()) == true &&
-					this.getPassword().equals(users.get(i).getPassword())) {
-					checker = 1;
-					break;
-				}
-			}
-			if (checker == 0) {
-				 System.out.println("Incorrect username and/or password");
-			} else {
-				checker = 2;
+		//validate if the username exists and if the password matches the username
+		for (int i = 0; i < users.size(); i++) {
+			if (user != users.get(i)) {
+                System.out.println("Incorrect username and/or password");
+				return false;
+				break;
 			}
 		}
+
+        System.out.println("Successful");
+        return true;
+
 	}
 
-	public void register(ArrayList<User> users) {			//method that allows user to register/make an account
+	public boolean register(User user, String username, String password) {
+        //method that allows user to register/make an account
 		System.out.println("\nRegister");
 
-		System.out.print("Username: ");
-		username = scan.nextLine();
-
 		//checks if username already exists
-		while (checker != 2) {
-			if (checker == 1) {
-				System.out.println("Username already exists");
-				System.out.print("Username: ");
-				username = scan.nextLine();
-				checker = 0;
-			} else {
-				checker = 2;
+        for (int i = 0; i < users.size(); i++) {
+			if (username.equalsIgnoreCase(users.get(i).getUsername()) == true) {
+                System.out.println("Username already exists");
+				return false;
+				break;
 			}
 		}
-		System.out.print("Password: ");
-		password = scan.nextLine();
 
-		this.setInfo(username, password);	//sets the username and password of the account of user
-		users.add(this);					//adds the user to the list of all users
+		user = new User(username, password);	//sets the username and password of the account of user
+		users.add(user);					//adds the user to the list of all users
 		System.out.println("Successful");
+
+        return true;
 	}
 
     public void saveToFile() {
-      /* Serialize the booklist(hashmap) */
-      FileOutputStream fos;
-      ObjectOutputStream oos;
+        /* Serialize the booklist(hashmap) */
+        FileOutputStream fos;
+        ObjectOutputStream oos;
 
-      try {
+        try {
           fos = new FileOutputStream("bin/books.ser");
           oos = new ObjectOutputStream(fos);
           oos.writeObject(bookList);
           oos.close();
           fos.close();
-      } catch(Exception e) {
-          e.printStackTrace();
-      }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadUsers() {
+        if (new File("bin/users.ser").exists()) {								//checks if file exists
+			//reading/getting the array list of users from file (if it exists)
+			try{
+
+				FileInputStream fileIn = new FileInputStream("bin/users.ser");
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				users = (ArrayList<User>) in.readObject();
+				in.close();
+				fileIn.close();
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				System.out.println("Cannot read.");
+			}
+		}
+    }
+
+    public static void saveUsers() {
+        try {
+			//writing/saving information of the users in the arraylist
+            FileOutputStream fileOut = new FileOutputStream("bin/users.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(users);
+            out.close();
+            fileOut.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

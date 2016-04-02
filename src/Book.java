@@ -20,8 +20,16 @@ public class Book implements Serializable {
         this.type = type;
     }
 
-    public String getId() { return this.id; }
-    public String getTitle() { return this.title; }
-    public String getAuthor() { return this.author; }
-    public int getYearPublished() { return this.yearPublished; }
+    public String getId() {
+        return this.id;
+    }
+    public String getTitle() {
+        return this.title;
+    }
+    public String getAuthor() {
+        return this.author;
+    }
+    public int getYearPublished() {
+        return this.yearPublished;
+    }
 }

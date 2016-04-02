@@ -12,31 +12,43 @@ import java.io.FileReader;
 @SuppressWarnings("unchecked")
 
 public class Main {
-    private static Scanner scanner = new Scanner(System.in);
+    private static Scanner scan = new Scanner(System.in);
     private static Library lib;
-    static ArrayList <User> users = new ArrayList<User>();
-    static User user;
+    private static User user;
 
 	public static void main(String[] args) {
-
-
+        String username;
+        String password;
 
         loadLibrary();
         lib.viewBooks();
-        loadUsers();
 
-		System.out.print("[1] Login\n[2] Register\n[3] Exit\nEnter choice: ");		//prints menu
-		Scanner sc = new Scanner(System.in);
-		int choice = sc.nextInt();													//gets the size of the array list of users
+		System.out.print("[1] Login\n[2] Register\n[3] Exit\nEnter choice: ");
+		int choice = scan.nextInt();													//gets the size of the array list of users
 
-		if (choice == 1) user.login(users);									//allows user to login
-		else if (choice == 2) user.register(users);							//allows user to register
+		if(choice == 1) {
+            do {
+                System.out.print("Username: ");		//gets the username
+    			username = scan.nextLine();
+
+    			System.out.print("Password: ");		//gets the password
+    			password = scan.nextLine();
+            } while(!lib.login(user, username, password));								//allows user to login
+		} else if(choice == 2) {
+
+            do {
+                System.out.print("Username: ");
+                username = scan.nextLine();
+
+                System.out.print("Password: ");
+                password = scan.nextLine();
+            } while(!lib.register(user, username, password));
+        }							//allows user to register
 
 
         mainMenu();
         lib.saveToFile();
         user.saveToFile();
-        saveUsers();
 	}
 
     private static void printMainMenu() {
@@ -56,7 +68,7 @@ public class Main {
             printMainMenu();
 
             try {
-                choice = scanner.nextInt();
+                choice = scan.nextInt();
             } catch (Exception e) {
                 System.out.println("Input is not a number.");
                 System.exit(1);
@@ -92,8 +104,8 @@ public class Main {
         String title;
 
         System.out.print("Book title: ");
-        scanner.nextLine();
-        title = scanner.nextLine();
+        scan.nextLine();
+        title = scan.nextLine();
 
         user.borrowBook(lib, title);
 
@@ -105,8 +117,8 @@ public class Main {
         user.userBooks();
 
         System.out.print("Book ID: ");
-        scanner.nextLine();
-        id = scanner.nextLine();
+        scan.nextLine();
+        id = scan.nextLine();
 
         user.returnBook(lib, id);
 
@@ -131,46 +143,7 @@ public class Main {
         }
     }
 
-    private static void loadUsers() {
-        if(new File("bin/bbooks.ser").exists()) {
-            try {
-                user = new User("", new FileInputStream("bin/bbooks.ser"));
-            } catch(Exception e) {}
-        } else {
-            user = new User("");
-        }
-        if (new File("bin/users.ser").exists()) {								//checks if file exists
-			//reading/getting the array list of users from file (if it exists)
-			try{
 
-				FileInputStream fileIn = new FileInputStream("bin/users.ser");
-				ObjectInputStream in = new ObjectInputStream(fileIn);
-				users = (ArrayList<User>) in.readObject();
-				in.close();
-				fileIn.close();
-			}
-			catch (Exception e){
-				e.printStackTrace();
-				System.out.println("Cannot read.");
-			}
-		}
-    }
 
-    private static void saveUsers() {
-        try {
-			//writing/saving information of the users in the arraylist
-            FileOutputStream fileOut = new FileOutputStream("bin/users.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(users);
-            out.close();
-            fileOut.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 }
