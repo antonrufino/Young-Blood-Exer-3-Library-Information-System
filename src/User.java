@@ -57,6 +57,7 @@ public class User implements Serializable {
 		if(foundBook) {
 			lib.bookList.get(title).add(borrowedBooks.get(indexOfBook));
 			borrowedBooks.remove(indexOfBook);
+		    System.out.println("You returned " + id + ". Thank you.");
 		} else {
 			System.out.println("Book not Found");
 		}

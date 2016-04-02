@@ -142,11 +142,10 @@ public class Main {
         try {
             if(f.exists()) {
                 // Retrieves books from existing file
-                System.out.println("True");
                 lib = new Library(new FileInputStream("bin/books.ser"));
+
             } else {
                 // Generates library from a csv file
-                System.out.println("False");
                 lib = new Library(new FileReader("bin/books.csv"));
             }
         } catch(Exception e) {

@@ -34,7 +34,7 @@ public class Library implements Serializable{
         try {
             BufferedReader br = new BufferedReader(csv);
             while((token = br.readLine().split(",")) != null) {
-                size = 2/*rand.nextInt(6) + 15*/;
+                size = rand.nextInt(6) + 15;
                 books = new ArrayList<Book>(size);
 
                 title = token[0];
@@ -73,10 +73,6 @@ public class Library implements Serializable{
         }
 
         loadUsers();
-        if (!users.isEmpty()) {
-            System.out.println(users.get(0).getUsername());
-            System.out.println(users.get(0).getPassword());
-        }
     }
 
     public void findBook(String id) {
@@ -165,12 +161,13 @@ public class Library implements Serializable{
         boolean userExist = false;;
 
 		//validate if the username exists and if the password matches the username
-		for (int i = 0; i < users.size(); i++) {
+        for (int i = 0; i < users.size(); i++) {
 			if (username.equalsIgnoreCase(users.get(i).getUsername()) &&
                 password.equalsIgnoreCase(users.get(i).getPassword())) {
                 user = users.get(i);
                 userExist = true;
 				break;
+
 			}
 		}
 
