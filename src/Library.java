@@ -14,6 +14,7 @@ public class Library implements Serializable{
     private Random rand = new Random();
     public static HashMap<String, ArrayList<Book>> bookList = new HashMap<String, ArrayList<Book>>();
     private static ArrayList <User> users = new ArrayList<User>();
+    private User user;
 
     private static int totalNumOfBooks;
 
@@ -53,6 +54,9 @@ public class Library implements Serializable{
                 bookList.put(title, books); // Adds the list to the hashmap
             }
         } catch(Exception e) {}
+
+        loadUsers();
+        System.out.println(users);
     }
 
 
@@ -68,6 +72,9 @@ public class Library implements Serializable{
             e.printStackTrace();
         }
 
+        loadUsers();
+        System.out.println(users.get(0).getUsername());
+        System.out.println(users.get(0).getPassword());
     }
 
     public void findBook(String id) {
@@ -150,43 +157,54 @@ public class Library implements Serializable{
         System.out.println("  -" + book.getYearPublished());
     }
 
-    public boolean login(User user, String username, String password) {
+    public User login(String username, String password) {
         //method that allows user to login
 		System.out.println("\nLogin");
-        user = new User(username, password);
+        boolean userExist = false;;
 
 		//validate if the username exists and if the password matches the username
 		for (int i = 0; i < users.size(); i++) {
-			if (user != users.get(i)) {
-                System.out.println("Incorrect username and/or password");
-				return false;
+			if (username.equalsIgnoreCase(users.get(i).getUsername()) &&
+                password.equalsIgnoreCase(users.get(i).getPassword())) {
+                user = users.get(i);
+                userExist = true;
 				break;
 			}
 		}
 
+        if(!userExist) {
+            System.out.println("Incorrect username and/or password");
+        }
+
         System.out.println("Successful");
-        return true;
+        return user;
 
 	}
 
-	public boolean register(User user, String username, String password) {
+	public User register(String username, String password) {
         //method that allows user to register/make an account
 		System.out.println("\nRegister");
+
+        boolean alreadyExist = false;
 
 		//checks if username already exists
         for (int i = 0; i < users.size(); i++) {
 			if (username.equalsIgnoreCase(users.get(i).getUsername()) == true) {
                 System.out.println("Username already exists");
-				return false;
-				break;
+                alreadyExist = true;
+                break;
 			}
 		}
 
-		user = new User(username, password);	//sets the username and password of the account of user
-		users.add(user);					//adds the user to the list of all users
-		System.out.println("Successful");
+		if(!alreadyExist) {
+            user = new User(username, password);	//sets the username and password of the account of user
+    		users.add(user);					//adds the user to the list of all users
+    		System.out.println("Successful");
+            System.out.println(user);
+        }
 
-        return true;
+        return user;
+
 	}
 
     public void saveToFile() {

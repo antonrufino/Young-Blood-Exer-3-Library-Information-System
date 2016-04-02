@@ -26,26 +26,35 @@ public class User implements Serializable {
 	}
 
     public void borrowBook(Library lib, String title) {
-    	borrowedBooks.add(lib.bookList.get(title).get(0));
-    	lib.bookList.get(title).remove(0);
+
+		if(lib.bookList.containsKey(title)) {
+			borrowedBooks.add(lib.bookList.get(title).get(0));
+	    	lib.bookList.get(title).remove(0);
+		} else {
+			System.out.println("Book not Found");
+		}
+
     }
 
     public void returnBook(Library lib, String id) {
 		int indexOfBook;
-		String title;
+		String title = "";
 		boolean foundBook = false;
 
 		for(indexOfBook = 0; indexOfBook < borrowedBooks.size(); indexOfBook++) {
 			System.out.println(id);
 			if(borrowedBooks.get(indexOfBook).getId().equals(id)) {
+				title = borrowedBooks.get(indexOfBook).getTitle();
 				foundBook = true;
 				break;
 			}
 		}
 
 		if(foundBook) {
-			lib.bookList.get(borrowedBooks.get(indexOfBook).getTitle()).add(borrowedBooks.get(indexOfBook));
+			lib.bookList.get(title).add(borrowedBooks.get(indexOfBook));
 			borrowedBooks.remove(indexOfBook);
+		} else {
+			System.out.println("Book not Found");
 		}
 
     }
@@ -70,19 +79,4 @@ public class User implements Serializable {
     	return this.password;
     }
 
-
-	public void saveToFile() {
-		FileOutputStream fos;
-        ObjectOutputStream oos;
-
-        try {
-            fos = new FileOutputStream("bin/bbooks.ser");
-            oos = new ObjectOutputStream(fos);
-            oos.writeObject(borrowedBooks);
-            oos.close();
-            fos.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-	}
 }

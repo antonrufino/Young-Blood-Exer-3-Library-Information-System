@@ -21,7 +21,6 @@ public class Main {
         String password;
 
         loadLibrary();
-        lib.viewBooks();
 
 		System.out.print("[1] Login\n[2] Register\n[3] Exit\nEnter choice: ");
 		int choice = scan.nextInt();													//gets the size of the array list of users
@@ -29,26 +28,30 @@ public class Main {
 		if(choice == 1) {
             do {
                 System.out.print("Username: ");		//gets the username
-    			username = scan.nextLine();
+    			username = scan.next();
 
     			System.out.print("Password: ");		//gets the password
-    			password = scan.nextLine();
-            } while(!lib.login(user, username, password));								//allows user to login
+    			password = scan.next();
+
+                user = lib.login(username, password);
+            } while(user == null);								//allows user to login
 		} else if(choice == 2) {
 
             do {
                 System.out.print("Username: ");
-                username = scan.nextLine();
+                username = scan.next();
 
                 System.out.print("Password: ");
-                password = scan.nextLine();
-            } while(!lib.register(user, username, password));
+                password = scan.next();
+
+                user = lib.register(username, password);
+            } while(user == null);
         }							//allows user to register
 
-
+        System.out.println(user);
         mainMenu();
         lib.saveToFile();
-        user.saveToFile();
+        lib.saveUsers();
 	}
 
     private static void printMainMenu() {
@@ -106,7 +109,7 @@ public class Main {
         System.out.print("Book title: ");
         scan.nextLine();
         title = scan.nextLine();
-
+        System.out.println(user);
         user.borrowBook(lib, title);
 
         System.out.println("You borrowed " + title + ".");
@@ -142,8 +145,5 @@ public class Main {
             System.exit(1);
         }
     }
-
-
-
 
 }
