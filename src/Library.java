@@ -33,7 +33,10 @@ public class Library implements Serializable{
 
         try {
             BufferedReader br = new BufferedReader(csv);
-            while((token = br.readLine().split(",")) != null) {
+            String input;
+
+            while((input = br.readLine()) != null) {
+                token = input.split(",");
                 size = rand.nextInt(6) + 15;
                 books = new ArrayList<Book>(size);
 
@@ -127,6 +130,11 @@ public class Library implements Serializable{
         ArrayList<Book> books;
         Iterator it = bookList.keySet().iterator();
         String title;
+
+        if (bookList.isEmpty()) {
+            System.out.println("No books in library.");
+            return;
+        }
 
         while (it.hasNext()) {
             title = (String)it.next();
