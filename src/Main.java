@@ -9,18 +9,34 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileReader;
 
-@SuppressWarnings("unchecked")
-
 public class Main {
     private static Scanner scan = new Scanner(System.in);
     private static Library lib;
     private static User user;
 
 	public static void main(String[] args) {
+        loadLibrary();
+        logInMenu();
+
+        System.out.println(user);
+        mainMenu();
+        lib.saveToFile();
+        lib.saveUsers();
+	}
+
+    private static void printMainMenu() {
+        System.out.println("[1] Borrow");
+        System.out.println("[2] Return");
+        System.out.println("[3] View books in library");
+        System.out.println("[4] View borrowed books");
+        System.out.println("[0] Exit");
+
+        System.out.print("Choice: ");
+    }
+
+    private static void logInMenu() {
         String username;
         String password;
-
-        loadLibrary();
 
 		System.out.print("[1] Login\n[2] Register\n[3] Exit\nEnter choice: ");
 		int choice = scan.nextInt();													//gets the size of the array list of users
@@ -47,21 +63,6 @@ public class Main {
                 user = lib.register(username, password);
             } while(user == null);
         }							//allows user to register
-
-        System.out.println(user);
-        mainMenu();
-        lib.saveToFile();
-        lib.saveUsers();
-	}
-
-    private static void printMainMenu() {
-        System.out.println("[1] Borrow");
-        System.out.println("[2] Return");
-        System.out.println("[3] View books in library");
-        System.out.println("[4] View borrowed books");
-        System.out.println("[0] Exit");
-
-        System.out.print("Choice: ");
     }
 
     private static void mainMenu() {
