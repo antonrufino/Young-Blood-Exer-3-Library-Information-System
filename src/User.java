@@ -28,8 +28,13 @@ public class User implements Serializable {
     public void borrowBook(Library lib, String title) {
 
 		if(lib.bookList.containsKey(title)) {
-			borrowedBooks.add(lib.bookList.get(title).get(0));
-	    	lib.bookList.get(title).remove(0);
+			if(lib.bookList.get(title).isEmpty()) {
+				System.out.println("Book Out of Stock");
+			} else {
+				borrowedBooks.add(lib.bookList.get(title).get(0));
+	    		lib.bookList.get(title).remove(0);
+				System.out.println("You borrowed " + title + ".");
+			}
 		} else {
 			System.out.println("Book not Found");
 		}
@@ -53,6 +58,7 @@ public class User implements Serializable {
 		if(foundBook) {
 			lib.bookList.get(title).add(borrowedBooks.get(indexOfBook));
 			borrowedBooks.remove(indexOfBook);
+		    System.out.println("You returned " + id + ". Thank you.");
 		} else {
 			System.out.println("Book not Found");
 		}

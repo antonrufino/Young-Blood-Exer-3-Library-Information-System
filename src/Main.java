@@ -23,8 +23,7 @@ public class Main {
         loadLibrary();
 
 		System.out.print("[1] Login\n[2] Register\n[3] Exit\nEnter choice: ");
-		int choice = scan.nextInt();													//gets the size of the array list of users
-
+		int choice = scan.nextInt();
 		if(choice == 1) {
             do {
                 System.out.print("Username: ");		//gets the username
@@ -112,7 +111,6 @@ public class Main {
         System.out.println(user);
         user.borrowBook(lib, title);
 
-        System.out.println("You borrowed " + title + ".");
     }
 
     private static void returnMenu() {
@@ -134,14 +132,13 @@ public class Main {
         try {
             if(f.exists()) {
                 // Retrieves books from existing file
-                System.out.println("True");
                 lib = new Library(new FileInputStream("bin/books.ser"), true);
             } else {
                 // Generates library from a csv file
-                System.out.println("False");
                 lib = new Library(new FileReader("bin/books.csv"));
             }
         } catch(Exception e) {
+            e.printStackTrace();
             System.exit(1);
         }
     }

@@ -73,8 +73,6 @@ public class Library implements Serializable{
         }
 
         loadUsers();
-        System.out.println(users.get(0).getUsername());
-        System.out.println(users.get(0).getPassword());
     }
 
     public void findBook(String id) {
@@ -163,12 +161,13 @@ public class Library implements Serializable{
         boolean userExist = false;;
 
 		//validate if the username exists and if the password matches the username
-		for (int i = 0; i < users.size(); i++) {
+        for (int i = 0; i < users.size(); i++) {
 			if (username.equalsIgnoreCase(users.get(i).getUsername()) &&
                 password.equalsIgnoreCase(users.get(i).getPassword())) {
                 user = users.get(i);
                 userExist = true;
 				break;
+
 			}
 		}
 
