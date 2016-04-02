@@ -12,7 +12,7 @@ public class Library implements Serializable{
         with the same title as the value
     */
     private Random rand = new Random();
-    private static HashMap<String, ArrayList<Book>> bookList = new HashMap<String, ArrayList<Book>>();
+    public static HashMap<String, ArrayList<Book>> bookList = new HashMap<String, ArrayList<Book>>();
     private static int totalNumOfBooks;
 
     public Library(FileReader csv) {
@@ -29,11 +29,9 @@ public class Library implements Serializable{
         int yearPublished;
 
         try {
-            System.out.println("1");
             BufferedReader br = new BufferedReader(csv);
             while((token = br.readLine().split(",")) != null) {
-                System.out.println("2");
-                size = rand.nextInt(6) + 15;
+                size = 2/*rand.nextInt(6) + 15*/;
                 books = new ArrayList<Book>(size);
 
                 title = token[0];
@@ -42,7 +40,6 @@ public class Library implements Serializable{
                 type = token[3];
 
                 for(int i = 0; i < size; i++) {
-                    System.out.println("3");
                     /*
                         Creates instances of book with different id and add it to
                         the list
@@ -53,7 +50,7 @@ public class Library implements Serializable{
                 }
                 bookList.put(title, books); // Adds the list to the hashmap
             }
-        } catch(Exception e) { System.out.println("4"); }
+        } catch(Exception e) {}
     }
 
 
@@ -69,7 +66,6 @@ public class Library implements Serializable{
             e.printStackTrace();
         }
 
-        System.out.println(bookList.get("Wikipedia"));
     }
 
     public void findBook(String id) {
@@ -158,7 +154,7 @@ public class Library implements Serializable{
       ObjectOutputStream oos;
 
       try {
-          fos = new FileOutputStream("books.ser");
+          fos = new FileOutputStream("bin/books.ser");
           oos = new ObjectOutputStream(fos);
           oos.writeObject(bookList);
           oos.close();
